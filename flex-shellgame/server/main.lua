@@ -18,7 +18,9 @@ end)
 
 QBCore.Functions.CreateCallback('flex-shellgame:server:HasMoney', function(source, cb, amount)
     local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.money.cash >= amount then
+    local CashMoneyMoney = Player.PlayerData.money['cash']
+    print(CashMoneyMoney)
+    if CashMoneyMoney >= amount then
         cb(true)
     else
         cb(false)

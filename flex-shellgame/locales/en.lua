@@ -2,11 +2,11 @@ local Translations = {
     error = {
         nowin = 'Rip, better luck next time..',
         placebet = 'You placed a bet of $%{value}..',
-        nomoney = 'Not enough money to play!',
+        nomoney = 'Not enough cash to play!',
     },
     success = {
         win = 'You won!',
-        getreward = 'You won x%{value} your money so $%{value2}'
+        getreward = 'You won x%{value} your cash so $%{value2}'
     },
     info = {
         play = 'Play for $%{value}',

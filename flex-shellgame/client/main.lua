@@ -113,58 +113,59 @@ CreateThread(function()
                         end
                         DrawMarker(2, v.coords.x, v.coords.y, v.coords.z-0.5, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 0.1, 0.1, 0.1, 255, 255, 255, 100, false, true, 2, nil, nil, false)
                         if IsControlJustPressed(0, 38) and dist < 1.5 then
-                            QBCore.Functions.TriggerCallback('g-drugselling:server:HasMoney', function(HasMoney)
+                            QBCore.Functions.TriggerCallback('flex-shellgame:server:HasMoney', function(HasMoney)
                                 if not HasMoney then
-                                    break QBCore.Functions.Notify(Lang:t("error.nomoney"), "error", 5000)
+                                    QBCore.Functions.Notify(Lang:t("error.nomoney"), "error", 5000)
+                                else
+                                    QBCore.Functions.FaceToPos(v.coords.x, v.coords.y, v.coords.z)
+                                    playanim(peds[k], 'random@domestic', 'pickup_low', 1100)
+                                    loadModel('ex_mp_h_acc_bowl_ceramic_01')
+                                    local bowl1 = vec3(v.coords.x-0.5, v.coords.y, v.coords.z)
+                                    local bowl2 = vec3(v.coords.x, v.coords.y, v.coords.z)
+                                    local bowl3 = vec3(v.coords.x+0.5, v.coords.y, v.coords.z)
+                                    local pedcoords = vec3(v.coords.x, v.coords.y+0.5, v.coords.z - 1.0)
+                                    if not DoesObjectOfTypeExistAtCoords(bowl1, 2.0, 'ex_mp_h_acc_bowl_ceramic_01', true) then
+                                        bowls['b1'..k] = CreateObject('ex_mp_h_acc_bowl_ceramic_01', bowl1.x, bowl1.y, bowl1.z-0.82, true, true, true)
+                                        SetEntityRotation(bowls['b1'..k], 180.0, 0.0, v.coords.w, false, false)
+                                        SetEntityCollision(bowls['b1'..k], true)
+                                        FreezeEntityPosition(bowls['b1'..k], true)
+                                    end
+                                    if not DoesObjectOfTypeExistAtCoords(bowl2, 2.0, 'ex_mp_h_acc_bowl_ceramic_01', true) then
+                                        bowls['b2'..k] = CreateObject('ex_mp_h_acc_bowl_ceramic_01', bowl2.x, bowl2.y, bowl2.z-0.82, true, true, true)
+                                        SetEntityRotation(bowls['b2'..k], 180.0, 0.0, v.coords.w, false, false)
+                                        SetEntityCollision(bowls['b2'..k], true)
+                                        FreezeEntityPosition(bowls['b2'..k], true)
+                                    end
+                                    if not DoesObjectOfTypeExistAtCoords(bowl3, 2.0, 'ex_mp_h_acc_bowl_ceramic_01', true) then
+                                        bowls['b3'..k] = CreateObject('ex_mp_h_acc_bowl_ceramic_01', bowl3.x, bowl3.y, bowl3.z-0.82, true, true, true)
+                                        SetEntityRotation(bowls['b3'..k], 180.0, 0.0, v.coords.w, false, false)
+                                        SetEntityCollision(bowls['b3'..k], true)
+                                        FreezeEntityPosition(bowls['b3'..k], true)
+                                    end
+                                    Wait(1000)
+                                    TriggerServerEvent('flex-shellgame:server:play', v.betamount)
+                                    playspeech(k, "MINIGAME_DEALER_GREET")
+                                    playanim(ped, 'random@domestic', 'pickup_low', 1100)
+                                    currentgame = k
+                                    choosetime = false
+                                    TriggerServerEvent('flex-shellgame:server:setstate', k, true)
+                                    local r = math.random(1,3)
+                                    local pos = GetEntityCoords(bowls['b'..tostring(r)..k])
+                                    playanim(peds[k], 'random@domestic', 'pickup_low', 1100)
+                                    SetEntityCoords(bowls['b'..tostring(r)..k], pos.x, pos.y, pos.z+0.4)
+                                    loadModel('prop_tennis_ball')
+                                    if not DoesObjectOfTypeExistAtCoords(pos, 2.0, 'prop_tennis_ball', true) then
+                                        bowls['ball'..k] = CreateObject('prop_tennis_ball', pos.x, pos.y, pos.z-0.175, true, true, true)
+                                        SetEntityCollision(bowls['ball'..k], true)
+                                        FreezeEntityPosition(bowls['ball'..k], true)
+                                    end
+                                    Wait(4000)
+                                    playspeech(k, "MINIGAME_DEALER_COMMENT_SLOW")
+                                    playanim(peds[k], 'random@domestic', 'pickup_low', 1100)
+                                    SetEntityCoords(bowls['b'..tostring(r)..k], pos.x, pos.y, pos.z)
+                                    playGame(k)
                                 end
-                            end,v.betamount)
-                            QBCore.Functions.FaceToPos(v.coords.x, v.coords.y, v.coords.z)
-                            playanim(peds[k], 'random@domestic', 'pickup_low', 1100)
-                            loadModel('ex_mp_h_acc_bowl_ceramic_01')
-                            local bowl1 = vec3(v.coords.x-0.5, v.coords.y, v.coords.z)
-                            local bowl2 = vec3(v.coords.x, v.coords.y, v.coords.z)
-                            local bowl3 = vec3(v.coords.x+0.5, v.coords.y, v.coords.z)
-                            local pedcoords = vec3(v.coords.x, v.coords.y+0.5, v.coords.z - 1.0)
-                            if not DoesObjectOfTypeExistAtCoords(bowl1, 2.0, 'ex_mp_h_acc_bowl_ceramic_01', true) then
-                                bowls['b1'..k] = CreateObject('ex_mp_h_acc_bowl_ceramic_01', bowl1.x, bowl1.y, bowl1.z-0.82, true, true, true)
-                                SetEntityRotation(bowls['b1'..k], 180.0, 0.0, v.coords.w, false, false)
-                                SetEntityCollision(bowls['b1'..k], true)
-                                FreezeEntityPosition(bowls['b1'..k], true)
-                            end
-                            if not DoesObjectOfTypeExistAtCoords(bowl2, 2.0, 'ex_mp_h_acc_bowl_ceramic_01', true) then
-                                bowls['b2'..k] = CreateObject('ex_mp_h_acc_bowl_ceramic_01', bowl2.x, bowl2.y, bowl2.z-0.82, true, true, true)
-                                SetEntityRotation(bowls['b2'..k], 180.0, 0.0, v.coords.w, false, false)
-                                SetEntityCollision(bowls['b2'..k], true)
-                                FreezeEntityPosition(bowls['b2'..k], true)
-                            end
-                            if not DoesObjectOfTypeExistAtCoords(bowl3, 2.0, 'ex_mp_h_acc_bowl_ceramic_01', true) then
-                                bowls['b3'..k] = CreateObject('ex_mp_h_acc_bowl_ceramic_01', bowl3.x, bowl3.y, bowl3.z-0.82, true, true, true)
-                                SetEntityRotation(bowls['b3'..k], 180.0, 0.0, v.coords.w, false, false)
-                                SetEntityCollision(bowls['b3'..k], true)
-                                FreezeEntityPosition(bowls['b3'..k], true)
-                            end
-                            Wait(1000)
-                            TriggerServerEvent('flex-shellgame:server:play', v.betamount)
-                            playspeech(k, "MINIGAME_DEALER_GREET")
-                            playanim(ped, 'random@domestic', 'pickup_low', 1100)
-                            currentgame = k
-                            choosetime = false
-                            TriggerServerEvent('flex-shellgame:server:setstate', k, true)
-                            local r = math.random(1,3)
-                            local pos = GetEntityCoords(bowls['b'..tostring(r)..k])
-                            playanim(peds[k], 'random@domestic', 'pickup_low', 1100)
-                            SetEntityCoords(bowls['b'..tostring(r)..k], pos.x, pos.y, pos.z+0.4)
-                            loadModel('prop_tennis_ball')
-                            if not DoesObjectOfTypeExistAtCoords(pos, 2.0, 'prop_tennis_ball', true) then
-                                bowls['ball'..k] = CreateObject('prop_tennis_ball', pos.x, pos.y, pos.z-0.175, true, true, true)
-                                SetEntityCollision(bowls['ball'..k], true)
-                                FreezeEntityPosition(bowls['ball'..k], true)
-                            end
-                            Wait(4000)
-                            playspeech(k, "MINIGAME_DEALER_COMMENT_SLOW")
-                            playanim(peds[k], 'random@domestic', 'pickup_low', 1100)
-                            SetEntityCoords(bowls['b'..tostring(r)..k], pos.x, pos.y, pos.z)
-                            playGame(k)
+                            end, v.betamount)
                         end
                         if IsControlJustReleased(0, 47) and dist < 1.5 and PlayerJob.name == 'police' and onDuty and not v.bussy then
                             QBCore.Functions.FaceToPos(v.coords.x, v.coords.y, v.coords.z)
